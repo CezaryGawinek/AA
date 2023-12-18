@@ -1,0 +1,20 @@
+def edit_entry(name,NW:float,NL:float):
+        nowa_lista=[]
+        lista = odczytaj()
+        for i in lista:
+            if i[0]==name:
+                i=f"{name};{i[1]},{NW}X{NL}\n"  
+                nowa_lista.append(i)
+            else:
+                nowa_lista.append(f"{i[0]};{i[1]}\n")
+        with open(FILEPATH,"w") as file:
+            for n in nowa_lista:
+                for x in n:
+                    file.write(f"{x}")
+
+def odczytaj():
+    try:
+        with open(FILEPATH,"r") as file:
+            return [line.strip().split(";") for line in file.readlines()]
+    except FileNotFoundError:
+        print("Nie znaleziono pliku.")
