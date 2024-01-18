@@ -1,0 +1,38 @@
+python -m venv car - tworzy wirtualne srodowicho
+
+
+pwd - aktualna ścieżka 
+whoami 
+ls, cd .. , cd . , rm, mv, cp, touch, mkdir, rmdir
+sudo - polecenie z poziomu admina
+ls
+ls -la | grep nazwa_katalogu
+grep 'tekst' nazwapliku.txt
+grep -r 'tekst' /nazwakatalogu
+greip -i 'tekst' nazwapliku.txt - wyszukuje po "tekst", "TEkst"
+find nazwa pliku
+-n - pokazuje numery wierszy
+grep -l 'tekst' *.txt
+-v - te które nie zawierają danego "tekst"
+
+find nazwa pliku
+find /nazwa_katalogu
+find /path -perm 644
+find /path -size +10M
+find /path -mtime 10
+
+>nadpisanie
+
+ping [ip]
+ssg user@ip
+sshkeygen
+ssh-copy-id (zeby na serwer sie logowac bez hasla)
+
+scp - secure copy
+scp -r -p lokalny_katalog user@ip:zdalny_katalog
+
+ps - aktywne procesy
+ps aux | grep nazwa
+top - interaktywne monitorowanie procesow
+
+port ssh: 22
