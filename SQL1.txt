@@ -1,0 +1,144 @@
+CREATE TABLE Gatunek (
+   IdGatunek varchar(32),
+   PokazUkryj boolean,
+   PRIMARY KEY (IdGatunek)
+);
+
+
+CREATE TABLE Autor (
+    IdAutor serial PRIMARY KEY,
+    Imie varchar(32),
+    Nazwisko varchar(32),
+    Pseudonim varchar(32)
+);
+
+
+CREATE TABLE Recenzja (
+   IdRecenzja serial PRIMARY KEY,
+   Ocena varchar(128),
+   Tresc varchar(128),
+   UserName varchar(32),
+   Ukryj boolean
+);
+
+
+CREATE TABLE Książka (
+  IdBook varchar(32) PRIMARY KEY,
+  IdAutor int,
+  Gatunek varchar(16),
+  Opis varchar(128),
+  Recenzja int,
+  RokWydania int,
+  Wydawnictwo int,
+  Status varchar(16),
+  FOREIGN KEY (Gatunek) REFERENCES Gatunek(IdGatunek),
+  FOREIGN KEY (Recenzja) REFERENCES Recenzja(IdRecenzja),
+  FOREIGN KEY (IdAutor) REFERENCES Autor(IdAutor)
+);
+
+
+CREATE TABLE Egzemplarz (
+    IdEgzemplarz serial PRIMARY KEY,
+    IdBook varchar(32),
+    Status varchar(16),
+    IdBiblioteka int,
+    Zuzycie int,
+    FOREIGN KEY (IdBook) REFERENCES Książka(IdBook)
+);
+
+
+CREATE TABLE Wypozyczenie (
+    IdWypozyczenie serial PRIMARY KEY,
+    IdZamowienie int,
+    IdEgzemplarz int,
+    DataWypozyczenia date,
+    CzasWypozyczenia int,
+    DataZwrotu date,
+    Przedluzenie int,
+    FOREIGN KEY (IdZamowienie) REFERENCES Zamowienie(IdZamowienie),
+    FOREIGN KEY (IdEgzemplarz) REFERENCES Egzemplarz(IdEgzemplarz),
+    FOREIGN KEY (Przedluzenie) REFERENCES Przedluzenie(IdPrzedluzenie)
+);
+
+
+CREATE TABLE Przedluzenie (
+    IdPrzedluzenie serial PRIMARY KEY,
+    IdWypozyczenie int,
+    Typ varchar(16),
+    CzasPrzedluzenia int,
+    FOREIGN KEY (IdWypozyczenie) REFERENCES Wypozyczenie(IdWypozyczenie)
+);
+
+
+CREATE TABLE Uzytkownik (
+    IdUzytkownik serial PRIMARY KEY,
+    Status varchar(16),
+    Login varchar(16),
+    Typ varchar(16),
+    Nazwisko varchar(32),
+    Imie varchar(16),
+    IndeksPW int,
+    Wypozyczenie boolean,
+    Sms boolean,
+    Mail varchar(32)
+);
+
+
+CREATE TABLE Zamowienie (
+    IdZamowienie serial PRIMARY KEY,
+    IdEgzemplarz int,
+    IdUzytkownik int,
+    Data date,
+    CzasOdbioru time,
+    FOREIGN KEY (IdUzytkownik) REFERENCES Uzytkownik(IdUzytkownik),
+    FOREIGN KEY (IdEgzemplarz) REFERENCES Egzemplarz(IdEgzemplarz)
+);
+
+
+CREATE TABLE Notyfikacja (
+    IdNotyfikacja serial PRIMARY KEY,
+    IdPrzedluzenie int,
+    Tresc varchar(128),
+    Typ varchar(16),
+    IdUzytkownik int,
+    FOREIGN KEY (IdPrzedluzenie) REFERENCES Przedluzenie(IdPrzedluzenie),
+    FOREIGN KEY (IdUzytkownik) REFERENCES Uzytkownik(IdUzytkownik)
+);
+
+
+
+CREATE TABLE Wydawnictwo (
+   IdWydawnictwo varchar(32) PRIMARY KEY,
+   Nazwa varchar(32),
+   Status varchar(32)
+);
+
+
+CREATE TABLE Biblioteka (
+   IdBiblioteka int PRIMARY KEY,
+   IdLokalizacja int,
+   IdGodzinyOtwarcia time,
+   Nazwa varchar(32),
+   FOREIGN KEY (IdBiblioteka) REFERENCES Egzemplarz(IdBiblioteka)
+   FOREIGN KEY (IdLokalizacja) REFERENCES Lokalizacja(IdLokalizacja),
+   FOREIGN KEY (IdGodzinyOtwarcia) REFERENCES GodzinyOtwarcia(IdGodzinyOtwarcia)
+);
+
+
+CREATE TABLE GodzinyOtwarcia (
+   IdGodzinyOtwarcia int PRIMARY KEY,
+   IdBiblioteka int,
+   DzienTygodnia varchar(16),
+   Godziny time,
+   Status varchar(32)
+);
+
+CREATE TABLE Config (
+   IdConfig int PRIMARY KEY,
+   Nazwa varchar(32),
+   Wartosc varchar(32),
+   DataModyfikacji date,
+   DataDodania time
+);
+
+
